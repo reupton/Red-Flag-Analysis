@@ -18,7 +18,17 @@ data = read_sav("Red Flag Behaviors_March 30, 2022_11.39.sav")
 ```
 
 ```{r, create new variables}
+## Descriptive Stats
+data |>
+  group_by(Gender) |>
+  summarise_at(vars(RFTOTAL), list(name = mean))
 
+data |>
+  group_by(RFcondition) |>
+  summarise_at(vars(RFTOTAL), list(name = mean))
+
+
+## ANOVA for main effects
 main_effects <- aov(RFTOTAL ~ Gender + RFcondition, data = data)
 summary(main_effects)
 parameters(main_effects)
@@ -30,6 +40,23 @@ parameters(main_effects)
 
 ```{r, plot}
 
+plot_overall <- ggplot(data = data,
+       mapping = aes(x = Gender,
+                     y = RFTOTAL)) +
+  geom_line()
 
+plot_overall
+
+plot_condition <- ggplot(data = data,
+       mapping = aes(x = Gender,
+                     y = RFTOTAL)) +
+  facet_wrap(~RFcondition) +
+  geom_line()
+
+plot_condition
 ```
+
+## Summary
+
+ There was not a main effect of condition. Overall, there was not a significant difference in the mean rating for the male perpetrator condition and the female perpetrator condition. However, there was a main effect of participant gender. There was a medium significant difference of the mean score of red flag behaviors between men and women.Additionally, while there was not a significant main effect of condition overall, among female participants, there was a significant difference between the mean ratings of the conditions, with female participants rating the condition involving a male perpetrator higher on the red flags scale than the condition with a female perpetrator. Since there was no difference found among the conditions for men, this suggests that men do not rate warnings sign lower because they are imagining a female perpetrator, but that in general they are less likely to identify these behaviors compared to women. One potential reason for this pattern is that women may be socialized to be more aware of issues related to warning signs of abuse compared to men. While we don’t have direct evidence of differential socialization, in our sample female participants were significantly more likely to say they look out for warning signs of abuse, report encountering more information about intimate partner violence and to report subjectively higher knowledge of issues related to intimate partner violence, even though there was no difference between men in women in regard to formal education about these issues. This is suggestive that there is something occurring that makes women more aware of this issues.
 
