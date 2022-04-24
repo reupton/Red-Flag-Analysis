@@ -1,0 +1,35 @@
+---
+title: "Untitled"
+output: html_document
+---
+
+```{r, load packages}
+library(tidyverse)
+library(easystats)
+library(haven)
+library(psych)
+```
+
+```{r, load data}
+data <- read.csv("RedFlag_cleaned.csv")
+data <- as_tibble(data)
+
+data = read_sav("Red Flag Behaviors_March 30, 2022_11.39.sav")
+```
+
+```{r, create new variables}
+
+main_effects <- aov(RFTOTAL ~ Gender + RFcondition, data = data)
+summary(main_effects)
+parameters(main_effects)
+
+main_effects <- glm(RFTOTAL ~ Gender + RFcondition, data = data)
+parameters(main_effects)
+    
+```
+
+```{r, plot}
+
+
+```
+
